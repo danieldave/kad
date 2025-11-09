@@ -8,23 +8,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {margin: 0; padding: 0; box-sizing: border-box;}
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Poppins', sans-serif;
       background: #f9f7ff;
       color: #2b0b4a;
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
+    /* HEADER */
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 5%;
+      padding: 15px 5%;
       background: #fff;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
+      transition: background 0.3s, box-shadow 0.3s;
     }
     .logo {
       display: flex;
@@ -36,25 +40,76 @@
       color: #fff;
       font-weight: 700;
       border-radius: 50%;
-      width: 50px;
-      height: 50px;
+      width: 45px;
+      height: 45px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
+    }
+    .logo-text h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #2b0b4a;
+    }
+    .logo-text small {
+      display: block;
+      font-size: 0.7rem;
+      color: #6b21a8;
+      font-style: italic;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
     nav a {
       text-decoration: none;
       color: #2b0b4a;
       font-weight: 500;
-      margin-left: 20px;
       transition: color 0.3s;
     }
     nav a:hover {
       color: #6b21a8;
     }
 
-    /* Hero */
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #2b0b4a;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px 0;
+        transform: translateY(-200%);
+        transition: transform 0.4s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      }
+      nav.active {
+        transform: translateY(0);
+      }
+      .hamburger { display: flex; }
+    }
+
+    /* HERO */
     .hero {
       display: flex;
       flex-direction: column-reverse;
@@ -63,6 +118,11 @@
       text-align: center;
       padding: 80px 5%;
       background: linear-gradient(to bottom, #faf5ff, #fff);
+      animation: fadeIn 1.2s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     @media (min-width: 768px) {
       .hero {
@@ -73,6 +133,11 @@
     .hero-text {
       flex: 1;
       padding: 20px;
+      animation: slideUp 1.3s ease forwards;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .hero-text h1 {
       font-size: 2.5rem;
@@ -86,6 +151,15 @@
     }
     .hero-buttons {
       margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    @media (min-width: 500px) {
+      .hero-buttons {
+        flex-direction: row;
+        gap: 15px;
+      }
     }
     .btn-primary {
       background: linear-gradient(135deg, #6b21a8, #7c3aed);
@@ -94,11 +168,12 @@
       border-radius: 30px;
       text-decoration: none;
       font-weight: 600;
-      margin-right: 10px;
-      transition: transform 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 12px rgba(107,33,168,0.2);
     }
     .btn-primary:hover {
       transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(107,33,168,0.3);
     }
     .btn-secondary {
       border: 2px solid #d4a017;
@@ -108,6 +183,12 @@
       text-decoration: none;
       font-weight: 600;
       background: #fff6e6;
+      transition: all 0.3s;
+    }
+    .btn-secondary:hover {
+      background: #fff;
+      color: #6b21a8;
+      border-color: #6b21a8;
     }
     .hero img {
       width: 100%;
@@ -116,9 +197,10 @@
       border-radius: 20px;
       object-fit: cover;
       box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      animation: fadeIn 1.5s ease-out;
     }
 
-    /* Services */
+    /* GENERAL SECTIONS */
     section {
       padding: 80px 5%;
       max-width: 1200px;
@@ -129,10 +211,23 @@
       margin-bottom: 40px;
       text-align: center;
       color: #2b0b4a;
+      position: relative;
     }
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(135deg, #6b21a8, #d4a017);
+      margin: 10px auto 0;
+      border-radius: 3px;
+    }
+
+    /* SERVICES */
     .services {
       display: grid;
-      gap: 20px;
+      gap: 25px;
+      animation: fadeIn 1.3s ease;
     }
     @media (min-width: 768px) {
       .services {
@@ -144,10 +239,11 @@
       padding: 25px;
       border-radius: 20px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      transition: transform 0.3s;
+      transition: transform 0.4s, box-shadow 0.4s;
     }
     .service:hover {
-      transform: translateY(-5px);
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
     .service img {
       width: 100%;
@@ -166,7 +262,7 @@
       color: #555;
     }
 
-    /* About */
+    /* ABOUT */
     .about {
       display: grid;
       gap: 40px;
@@ -184,14 +280,16 @@
     }
     .about p {
       color: #555;
+      animation: slideUp 1.2s ease;
     }
 
-    /* What others miss */
+    /* UNIQUE */
     .unique {
       background: linear-gradient(135deg, #6b21a8, #d4a017);
       color: #fff;
       text-align: center;
       padding: 80px 5%;
+      animation: fadeIn 1.2s ease;
     }
     .unique h2 {
       font-size: 2rem;
@@ -203,7 +301,7 @@
       font-size: 1.1rem;
     }
 
-    /* Contact */
+    /* CONTACT */
     .contact {
       display: grid;
       gap: 40px;
@@ -219,6 +317,7 @@
       padding: 30px;
       border-radius: 20px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      animation: fadeIn 1.3s ease;
     }
     form input, form textarea {
       width: 100%;
@@ -236,6 +335,11 @@
       border-radius: 30px;
       font-weight: 600;
       cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    form button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(107,33,168,0.3);
     }
 
     footer {
@@ -244,6 +348,7 @@
       background: #fff;
       color: #777;
       font-size: 0.9rem;
+      animation: fadeIn 1s ease;
     }
   </style>
 </head>
@@ -252,12 +357,17 @@
   <header>
     <div class="logo">
       <div class="logo-circle">KAD</div>
-      <div>
+      <div class="logo-text">
         <h2>KAD Digital Service</h2>
         <small>Where strategy meets storytelling</small>
       </div>
     </div>
-    <nav>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav id="nav">
       <a href="#services">Services</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -333,10 +443,18 @@
   </footer>
 
   <script>
-    // Simple scroll effect
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+
+    hamburger.addEventListener('click', () => {
+      nav.classList.toggle('active');
+      hamburger.classList.toggle('open');
+    });
+
     window.addEventListener('scroll', () => {
-      document.querySelector('header').style.boxShadow = window.scrollY > 50
-        ? '0 2px 10px rgba(0,0,0,0.1)'
+      const header = document.querySelector('header');
+      header.style.boxShadow = window.scrollY > 50
+        ? '0 2px 12px rgba(0,0,0,0.1)'
         : '0 2px 8px rgba(0,0,0,0.05)';
     });
   </script>
